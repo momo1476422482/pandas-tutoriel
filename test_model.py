@@ -2,7 +2,6 @@ import pandas as pd
 from model import analyse_csv
 from pathlib import Path
 
-
 ac = analyse_csv(Path(__file__).parent / "data.csv")
 
 
@@ -12,5 +11,13 @@ def test_get_number_observation():
 
 def test_impute_missing_values():
     ac.impute_missing_values()
-    assert ac.get_data_frame().shape[0] == 9585
-    assert ac.get_data_frame()["Experience"].isnull().values.any()
+    df = ac.get_data_frame()
+    assert df[(df['Experience'].isna()), 'Experience'].shape[1] == 0
+
+
+def test_predict_major():
+    ac.impute_missing_values()
+    ac.transform_feature(ac.get_most_used_technology(40))
+    ac.predict_major()
+    df = ac.get_data_frame()
+    assert df[(df['Metier'].isna()), 'Metier'].shape[1] == 0
