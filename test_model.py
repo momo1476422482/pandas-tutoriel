@@ -12,7 +12,7 @@ def test_get_number_observation():
 def test_impute_missing_values():
     ac.impute_missing_values()
     df = ac.get_data_frame()
-    assert df[(df['Experience'].isna()), 'Experience'].shape[1] == 0
+    assert df.loc[(df["Experience"].isna())].shape[0] == 0
 
 
 def test_predict_major():
@@ -20,4 +20,4 @@ def test_predict_major():
     ac.transform_feature(ac.get_most_used_technology(40))
     ac.predict_major()
     df = ac.get_data_frame()
-    assert df[(df['Metier'].isna()), 'Metier'].shape[1] == 0
+    assert df.loc[(df["Metier"].isna())].shape[0] == 0
